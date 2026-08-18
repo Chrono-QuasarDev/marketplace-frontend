@@ -4,11 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"node mock-server.mjs\" \"vite --host 0.0.0.0 --port 5173\"",
+    "dev": "concurrently \"npm:dev:api\" \"npm:dev:frontend\"",
     "dev:api": "node mock-server.mjs",
+    "dev:frontend": "vite --host 0.0.0.0 --port 5173",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "npm run dev"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
