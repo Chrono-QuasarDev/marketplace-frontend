@@ -283,6 +283,20 @@ const server = http.createServer(async (req, res) => {
   send(res, 404, { error: 'Not found' });
 });
 
-server.listen(3000, '0.0.0.0', () => {
-  console.log('Mock API on http://localhost:3000');
-});
+const DEFAULT_PORT = Number(process.env.MOCK_PORT) || 3000;
+
+function startServer(port, attemptsLeft = 10) {
+  server.listen(port, '0.0.0.0', () => {
+    console.log(`Mock API on http://localhost:${port}`);
+  }).on('error', (err) => {
+    if (err.code === 'EADDRINUSE' && attemptsLeft > 0) {
+      console.warn(`Port ${port} in use, trying ${port + 1}...`);
+      setTimeout(() => startServer(port + 1, attemptsLeft - 1), 200);
+    } else {
+      console.error('Failed to start mock server:', err);
+      process.exit(1);
+    }
+  });
+}
+
+startServer(DEFAULT_PORT);
