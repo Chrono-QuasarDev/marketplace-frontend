@@ -4,10 +4,10 @@
  */
 
 const STORAGE_KEY_TOKEN = 'marketplace_jwt_token';
-const STORAGE_KEY_API_URL = 'marketplace_api_base_url';
+const STORAGE_KEY_API_URL = '/api/v1';
 
 export const getStoredApiUrl = () => {
-  return localStorage.getItem(STORAGE_KEY_API_URL) || '/api';
+  return localStorage.getItem(STORAGE_KEY_API_URL) || '/api/v1';
 };
 
 export const setStoredApiUrl = (url) => {
