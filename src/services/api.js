@@ -179,6 +179,46 @@ export const usersApi = {
   },
 };
 
+// ---------------- ADMIN API ----------------
+
+export const adminApi = {
+  /**
+    * GET /api/admin/user
+    * Query params: q (optional, minimum 2 characters), page, size (max 100)
+    * Response: { success, data: User[], meta: { page, limit, totalItems, totalPages } }
+    */
+  getUsers: async ({ q, page = 1, size = 10 } = {}) => {
+    const params = new URLSearchParams();
+    if (q) params.append('q', q);
+    params.append('page', page.toString());
+    params.append('size', size.toString());
+
+    return await request(`/admin/user?${params.toString()}`, {
+      method: 'GET',
+    });
+  },
+
+  /**
+    * GET /api/admin/user/:id
+    * Response: { success, data: User with associated products }
+    */
+  getUserInfo: async (userId) => {
+    return await request(`/admin/user/${userId}`, {
+      method: 'GET',
+    });
+  },
+
+  /**
+    * DELETE /api/admin/user/:id
+    * Response: { success, message }
+    */
+  deleteUser: async (userId) => {
+    return await request(`/admin/user/${userId}`, {
+      method: 'DELETE',
+    });
+  },
+};
+
 // ---------------- PRODUCTS API ----------------
 
 export const productsApi = {
